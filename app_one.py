@@ -91,7 +91,7 @@ st.write(data)
 data_load_state.text("Done! (using st.cache_data)")
 
 # Streamlit app title
-st.title('Time Series Plot with PM2.5')
+st.subheader('Time Series Plot with PM2.5')
 
 # Create a time series plot using Plotly Express
 fig = px.line(data, x='DataDate', y='PM2_5', title='PM2.5 Time Series')
