@@ -134,7 +134,8 @@ print(data)
 if data is not None:
     # data_load_state = st.text('Loading graph...')
     id_sensor_from_df = (data['DeviceID'][0])
-    fig = px.line(data, x='DataDate', y='PM2_5', title= f'PM2.5 Time Series for {id_sensor_from_df}')
+    custom_format_graph = "%d-%b-%Y"
+    fig = px.line(data, x='DataDate', y='PM2_5', title= f'PM2.5 line plot for sensor {id_sensor_from_df} from {start_date.strftime(custom_format_graph)} to {end_date.strftime(custom_format_graph)}')
     fig.update_xaxes(title_text='Date and Time')
     fig.update_yaxes(title_text='PM2.5 Concentration')
     # Display the time series plot in Streamlit
