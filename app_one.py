@@ -57,7 +57,7 @@ with col1:
 
 # Time input widgets in the second column
 with col2:
-    start_time = st.time_input("Select Start Time", value=datetime(2023, 7, 1, 0, 0))
+    start_time = st.time_input("Select Start Time", value=datetime(2023, 6, 1, 0, 0))
     end_time = st.time_input("Select End Time", value=datetime(2023, 7, 31, 23, 59))
 
 # Combine the selected date and time into datetime objects using np.array
