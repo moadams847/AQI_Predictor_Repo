@@ -91,27 +91,28 @@ def fetch_data_for_month():
     
     July_data = authenticate_and_request(APITocken, APPType, request_body)
     Sensor_Data_July = July_data['SearchDetail']
-    print(Sensor_Data_July[0])
-    df_july_one = pd.DataFrame(Sensor_Data_July)
-    df_july_one['DataDate'] = pd.to_datetime(df_july_one['DataDate'])
-    df_july_two = df_july_one.loc[:, (df_july_one != 0).any(axis=0)]
-    print(df_july_two.head())
-    
-    return df_july_two
+    if len(Sensor_Data_July) != 0:
+        print(Sensor_Data_July[0])
+        df_july_one = pd.DataFrame(Sensor_Data_July)
+        df_july_one['DataDate'] = pd.to_datetime(df_july_one['DataDate'])
+        df_july_two = df_july_one.loc[:, (df_july_one != 0).any(axis=0)]
+        print(df_july_two.head())
+        return df_july_two
+
+
 
 # Create a text element and let the reader know the data is loading.
-data_load_state = st.text('Loading graph...')
+# data_load_state = st.text('Loading data...')
 
 # Load 10,000 rows of data into the dataframe.
-data = fetch_data_for_month()
-id_sensor_from_df = (data['DeviceID'][0])
+# data = fetch_data_for_month()
+# id_sensor_from_df = (data['DeviceID'][0])
 
 # Create a download button to download the displayed data as CSV
 # st.subheader('Raw data')
 # st.write(data)
 
 # Notify the reader that the data was successfully loaded.
-data_load_state.text("Done!")
 
 # csv_data = data.to_csv(index=False).encode()
 # st.download_button(
@@ -124,16 +125,23 @@ data_load_state.text("Done!")
 
 # Streamlit app title
 # st.subheader('Time Series Plot with PM2.5')
-
 # with st.spinner('Wait for it...'):
 #     time.sleep(1)
 
 # Create a time series plot using Plotly Express
-fig = px.line(data, x='DataDate', y='PM2_5', title= f'PM2.5 Time Series for {id_sensor_from_df}')
-fig.update_xaxes(title_text='Date and Time')
-fig.update_yaxes(title_text='PM2.5 Concentration')
+data = fetch_data_for_month()
+print(data)
+if data is not None:
+    # data_load_state = st.text('Loading graph...')
+    id_sensor_from_df = (data['DeviceID'][0])
+    fig = px.line(data, x='DataDate', y='PM2_5', title= f'PM2.5 Time Series for {id_sensor_from_df}')
+    fig.update_xaxes(title_text='Date and Time')
+    fig.update_yaxes(title_text='PM2.5 Concentration')
+    # Display the time series plot in Streamlit
+    st.plotly_chart(fig)
+    # data_load_state.text("Done!")
+else:
+    st.subheader('Select an appropriate date range')
 
-# Display the time series plot in Streamlit
-st.plotly_chart(fig)
 
 
