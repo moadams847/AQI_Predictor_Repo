@@ -43,14 +43,31 @@ def authenticate_and_request(APITocken, APPType, request_body):
 APITocken='Rth-0987u-wert-3456'
 APPType='AIUSER'
 
-# Define the start and end date strings------------------------------------------------------
-start_date = datetime(2023, 7, 1, 0, 0)
-end_date = datetime(2023, 8, 31, 23, 59)
+# # Define the start and end date strings------------------------------------------------------
+# start_date = datetime(2023, 7, 1, 0, 0)
+# end_date = datetime(2023, 8, 31, 23, 59)
+
+# Create a container for horizontal layout
+col1, col2 = st.columns(2)
+
+# Date input widgets in the first column
+with col1:
+    start_date = st.date_input("Select Start Date", value=datetime(2023, 7, 1))
+    end_date = st.date_input("Select End Date", value=datetime(2023, 7, 31))
+
+# Time input widgets in the second column
+with col2:
+    start_time = st.time_input("Select Start Time", value=datetime(2023, 7, 1, 0, 0))
+    end_time = st.time_input("Select End Time", value=datetime(2023, 7, 31, 23, 59))
+
+# Combine the selected date and time into datetime objects using np.array
+start_datetime = np.array(datetime.combine(start_date, start_time))
+end_datetime = np.array(datetime.combine(end_date, end_time))
 
 # Define a custom datetime format-----------------------------------------------------------
 custom_format = "%d-%b-%Y %I:%M %p"
 
-@st.cache_data
+# @st.cache_data
 def fetch_data_for_month():
     print(1)
     # Format the datetime objects using the custom format
@@ -78,29 +95,32 @@ def fetch_data_for_month():
     return df_july_two
 
 # Create a text element and let the reader know the data is loading.
-data_load_state = st.text('Loading data...')
+data_load_state = st.text('Loading graph...')
 
 # Load 10,000 rows of data into the dataframe.
 data = fetch_data_for_month()
 
 # Create a download button to download the displayed data as CSV
-st.subheader('Raw data')
-st.write(data)
+# st.subheader('Raw data')
+# st.write(data)
 
 # Notify the reader that the data was successfully loaded.
-data_load_state.text("Done!")
+# data_load_state.text("Done!")
 
-csv_data = data.to_csv(index=False).encode()
-st.download_button(
-    label="Download Data as CSV",
-    data=csv_data,
-    file_name="data_july_ENE02368.csv",
-    mime="text/csv"
-)
+# csv_data = data.to_csv(index=False).encode()
+# st.download_button(
+#     label="Download Data as CSV",
+#     data=csv_data,
+#     file_name="data_july_ENE02368.csv",
+#     mime="text/csv"
+# )
 
 
 # Streamlit app title
-st.subheader('Time Series Plot with PM2.5')
+# st.subheader('Time Series Plot with PM2.5')
+
+# with st.spinner('Wait for it...'):
+#     time.sleep(1)
 
 # Create a time series plot using Plotly Express
 fig = px.line(data, x='DataDate', y='PM2_5', title='PM2.5 Time Series')
