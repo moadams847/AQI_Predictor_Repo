@@ -105,7 +105,7 @@ data = fetch_data_for_month()
 # st.write(data)
 
 # Notify the reader that the data was successfully loaded.
-# data_load_state.text("Done!")
+data_load_state.text("Done!")
 
 # csv_data = data.to_csv(index=False).encode()
 # st.download_button(
