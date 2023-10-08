@@ -52,13 +52,13 @@ col1, col2 = st.columns(2)
 
 # Date input widgets in the first column
 with col1:
-    start_date = st.date_input("Select Start Date", value=datetime(2023, 7, 1))
-    end_date = st.date_input("Select End Date", value=datetime(2023, 7, 31))
+    start_date = st.date_input("Select Start Date", value=datetime(2023, 6, 1))
+    end_date = st.date_input("Select End Date", value=datetime(2023, 6, 31))
 
 # Time input widgets in the second column
 with col2:
     start_time = st.time_input("Select Start Time", value=datetime(2023, 6, 1, 0, 0))
-    end_time = st.time_input("Select End Time", value=datetime(2023, 7, 31, 23, 59))
+    end_time = st.time_input("Select End Time", value=datetime(2023, 6, 31, 23, 59))
 
 # Combine the selected date and time into datetime objects using np.array
 start_datetime = np.array(datetime.combine(start_date, start_time))
