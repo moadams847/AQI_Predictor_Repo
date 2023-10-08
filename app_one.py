@@ -82,7 +82,15 @@ data_load_state = st.text('Loading data...')
 
 # Load 10,000 rows of data into the dataframe.
 data = fetch_data_for_month()
-data_two = data.copy()
+
+# Create a download button to download the displayed data as CSV
+csv_data = data.to_csv(index=False).encode()
+st.download_button(
+    label="Download Data as CSV",
+    data=csv_data,
+    file_name="data_july_ENE02368.csv",
+    mime="text/csv"
+)
 
 st.subheader('Raw data')
 st.write(data)
