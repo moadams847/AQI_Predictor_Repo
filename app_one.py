@@ -90,8 +90,6 @@ st.write(data)
 # Notify the reader that the data was successfully loaded.
 data_load_state.text("Done! (using st.cache_data)")
 
-st.subheader('Time Series Chart')
-
 # Streamlit app title
 st.title('Time Series Plot with PM2.5')
 
