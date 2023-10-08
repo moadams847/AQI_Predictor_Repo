@@ -141,7 +141,7 @@ if data is not None:
     st.plotly_chart(fig)
     # data_load_state.text("Done!")
 else:
-    st.subheader('Select an appropriate date range')
+    st.subheader('Please choose a date range starting from July 2023 and onwards')
 
 
 
