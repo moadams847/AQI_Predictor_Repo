@@ -48,7 +48,7 @@ APPType='AIUSER'
 # end_date = datetime(2023, 8, 31, 23, 59)
 
 # Create a container for horizontal layout
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns([2, 2, 2])
 
 # Date input widgets in the first column
 with col1:
@@ -57,19 +57,23 @@ with col1:
 
 # Time input widgets in the second column
 with col2:
-    start_time = st.time_input("Select Start Time", value=datetime(2023, 6, 1, 0, 0))
+    start_time = st.time_input("Select Start Time", value=datetime(2023, 7, 1, 0, 0))
     end_time = st.time_input("Select End Time", value=datetime(2023, 7, 31, 23, 59))
+
+# Sensor ID selection dropdown in the third column
+with col3:
+    sensor_id = st.selectbox("Select Sensor ID", ["ENE02368", "ENE00960", "ENE00933", "ENE00950"])  # Add more sensor IDs as needed
 
 # Combine the selected date and time into datetime objects using np.array
 start_datetime = np.array(datetime.combine(start_date, start_time))
 end_datetime = np.array(datetime.combine(end_date, end_time))
-
+print(start_datetime)
+print(end_datetime)
 # Define a custom datetime format-----------------------------------------------------------
 custom_format = "%d-%b-%Y %I:%M %p"
 
 # @st.cache_data
 def fetch_data_for_month():
-    print(1)
     # Format the datetime objects using the custom format
     start_date_str = start_date.strftime(custom_format)
     end_date_str = end_date.strftime(custom_format)
@@ -78,7 +82,7 @@ def fetch_data_for_month():
     print(end_date_str)
 
     request_body =  {
-    "SensorID":"ENE02368",
+    "SensorID":sensor_id,
      "FromDate":start_date_str,
      "ToDate":end_date_str,
      "DataInteval":1,
@@ -92,6 +96,7 @@ def fetch_data_for_month():
     df_july_one['DataDate'] = pd.to_datetime(df_july_one['DataDate'])
     df_july_two = df_july_one.loc[:, (df_july_one != 0).any(axis=0)]
     print(df_july_two.head())
+    
     return df_july_two
 
 # Create a text element and let the reader know the data is loading.
@@ -99,6 +104,7 @@ data_load_state = st.text('Loading graph...')
 
 # Load 10,000 rows of data into the dataframe.
 data = fetch_data_for_month()
+id_sensor_from_df = (data['DeviceID'][0])
 
 # Create a download button to download the displayed data as CSV
 # st.subheader('Raw data')
@@ -123,7 +129,7 @@ data_load_state.text("Done!")
 #     time.sleep(1)
 
 # Create a time series plot using Plotly Express
-fig = px.line(data, x='DataDate', y='PM2_5', title='PM2.5 Time Series')
+fig = px.line(data, x='DataDate', y='PM2_5', title= f'PM2.5 Time Series for {id_sensor_from_df}')
 fig.update_xaxes(title_text='Date and Time')
 fig.update_yaxes(title_text='PM2.5 Value')
 
