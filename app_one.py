@@ -84,6 +84,12 @@ data_load_state = st.text('Loading data...')
 data = fetch_data_for_month()
 
 # Create a download button to download the displayed data as CSV
+st.subheader('Raw data')
+st.write(data)
+
+# Notify the reader that the data was successfully loaded.
+data_load_state.text("Done! (using st.cache_data)")
+
 csv_data = data.to_csv(index=False).encode()
 st.download_button(
     label="Download Data as CSV",
@@ -92,11 +98,6 @@ st.download_button(
     mime="text/csv"
 )
 
-st.subheader('Raw data')
-st.write(data)
-
-# Notify the reader that the data was successfully loaded.
-data_load_state.text("Done! (using st.cache_data)")
 
 # Streamlit app title
 st.subheader('Time Series Plot with PM2.5')
