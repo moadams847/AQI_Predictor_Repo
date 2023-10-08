@@ -62,7 +62,7 @@ with col2:
 
 # Sensor ID selection dropdown in the third column
 with col3:
-    sensor_id = st.selectbox("Select Sensor ID", ["ENE00967", "ENE02368", "ENE02369", "ENE00960", "ENE00933", "ENE00950"])  # Add more sensor IDs as needed
+    sensor_id = st.selectbox("Select Sensor ID", ["ENE00960", "ENE00933", "ENE00950"])  # Add more sensor IDs as needed
 
 # Combine the selected date and time into datetime objects using np.array
 start_datetime = np.array(datetime.combine(start_date, start_time))
@@ -131,7 +131,7 @@ data_load_state.text("Done!")
 # Create a time series plot using Plotly Express
 fig = px.line(data, x='DataDate', y='PM2_5', title= f'PM2.5 Time Series for {id_sensor_from_df}')
 fig.update_xaxes(title_text='Date and Time')
-fig.update_yaxes(title_text='PM2.5 Value')
+fig.update_yaxes(title_text='PM2.5 Concentration')
 
 # Display the time series plot in Streamlit
 st.plotly_chart(fig)
